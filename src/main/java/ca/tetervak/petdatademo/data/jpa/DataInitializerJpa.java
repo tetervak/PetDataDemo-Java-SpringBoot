@@ -38,7 +38,7 @@ public class DataInitializerJpa {
         HobbyEntity sleeping = new HobbyEntity("Having an afternoon nap.");
         sleeping = hobbyRepositoryJpa.save(sleeping);
 
-        HobbyEntity fetch = new HobbyEntity("Playing fetch with tennis balls");
+        HobbyEntity fetch = new HobbyEntity("Playing fetch with tennis balls.");
         fetch = hobbyRepositoryJpa.save(fetch);
 
         HobbyEntity eating = new HobbyEntity("Getting a yummy treat.");
@@ -59,6 +59,7 @@ public class DataInitializerJpa {
         PetEntity charlie = new PetEntity("Charlie", PetKind.DOG, 3);
         charlie.addHobby(slippers);
         charlie.addHobby(sleeping);
+        charlie.addHobby(fetch);
         patricia.addPet(charlie);
 
         PetEntity fluffy = new PetEntity("Fluffy", PetKind.CAT, 2);
