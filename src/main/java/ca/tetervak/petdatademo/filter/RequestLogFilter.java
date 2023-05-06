@@ -22,5 +22,6 @@ public class RequestLogFilter implements Filter {
 
         log.info("received request for " + requestUri);
         filterChain.doFilter(servletRequest, servletResponse);
+        log.info("response send for requested " + requestUri);
     }
 }
