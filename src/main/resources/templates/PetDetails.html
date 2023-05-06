@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/main.css" th:href="@{/css/main.css}">
+    <link rel="stylesheet" href="../static/css/header.css" th:href="@{/css/header.css}">
+    <link rel="stylesheet" href="../static/css/footer.css" th:href="@{/css/footer.css}">
+    <title>Pet Details</title>
+</head>
+<body>
+<header th:replace="~{HeaderAndFooter::Header}">
+    <ul class="navigation-bar">
+        <li><a href="Index.html">Some Header Links</a></li>
+    </ul>
+    <h1>Some header text</h1>
+</header>
+<main>
+    <h2>Pet Info</h2>
+    <p>
+        <label class="output-label">Pet Name:</label>
+        <span class="output" th:text="${pet.name}">Bugs</span>
+    </p>
+    <p>
+        <label class="output-label">Pet Kind:</label>
+        <span class="output" th:text="${pet.petKind}">rabbit</span>
+    </p>
+    <p>
+        <label class="output-label">Pet Age:</label>
+        <span class="output" th:text="${pet.age}">3</span>
+    </p>
+    <p>
+        <label class="output-label">Owner:</label>
+        <span class="output"
+              th:text="|${pet.owner.firstName} ${pet.owner.lastName}, ${pet.owner.email}|">
+            Bart Simpson
+        </span>
+        &nbsp;<a href="UserDetails.html" th:href="@{/users/{id}(id=${pet.owner.id})}">Info</a>
+    </p>
+</main>
+<footer th:replace="~{HeaderAndFooter::footer}">
+    Some footer text
+</footer>
+</body>
+</html>
+

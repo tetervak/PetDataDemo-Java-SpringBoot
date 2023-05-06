@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/main.css" th:href="@{/css/main.css}">
+    <link rel="stylesheet" href="../static/css/header.css" th:href="@{/css/header.css}">
+    <link rel="stylesheet" href="../static/css/footer.css" th:href="@{/css/footer.css}">
+    <title>User Details</title>
+</head>
+<body>
+<header th:replace="~{HeaderAndFooter::Header}">
+    <ul class="navigation-bar">
+        <li><a href="Index.html">Some Header Links</a></li>
+    </ul>
+    <h1>Some header text</h1>
+</header>
+<main>
+    <h2>User Info</h2>
+    <th:block th:object="${user}">
+        <p>
+            <label class="output-label">First Name:</label>
+            <span class="output" th:text="*{firstName}">Bart</span>
+        </p>
+        <p>
+            <label class="output-label">Last Name:</label>
+            <span class="output" th:text="*{lastName}">Simpson</span>
+        </p>
+        <p>
+            <label class="output-label">Email:</label>
+            <span class="output" th:text="*{email}">bart.simpson@sheridancollege.ca</span>
+        </p>
+        <p>
+            <label class="output-label">Phone:</label>
+            <span class="output" th:text="*{phone}">905-459-7533</span>
+        </p>
+    </th:block>
+    <h2>User's Pets</h2>
+    <p th:if="${#lists.isEmpty(user.pets)}" class="message">The user does not own pets.</p>
+    <table th:unless="${#lists.isEmpty(user.pets)}">
+        <tr>
+            <th>Count</th>
+            <th>Pet Name</th>
+            <th>Pet Kind</th>
+            <th>Options</th>
+        </tr>
+        <tr th:each="p,i: ${user.pets}">
+            <td th:text="${i.count}">1</td>
+            <td th:text="${p.name}">Bugs</td>
+            <td th:text="${p.petKind}">rabbit</td>
+            <td>
+                <a href="PetDetails.html" th:href="@{/pets/{id}(id=${p.id})}">Info</a>
+            </td>
+        </tr>
+    </table>
+</main>
+<footer th:replace="~{HeaderAndFooter::footer}">
+    Some footer text
+</footer>
+</body>
+</html>
