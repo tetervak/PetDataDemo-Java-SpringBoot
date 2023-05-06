@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
 @RequestMapping("/pets")
 public class PetController {
 
-    private final Logger log = LoggerFactory.getLogger(UserController.class);
+    private final Logger log = LoggerFactory.getLogger(PetController.class);
     private final PetDataService petDataService;
 
     public PetController(PetDataService petDataService) {
@@ -29,7 +29,7 @@ public class PetController {
     ModelAndView petList(){
         log.trace("petList() is called");
         List<Pet> list = petDataService.findAllPets();
-        log.debug("list.size()=" + list.size());
+        log.debug("list.size=" + list.size());
         return new ModelAndView("PetList", "pets", list);
     }
 
@@ -40,10 +40,12 @@ public class PetController {
         try{
             int id = Integer.parseInt(ids);
             PetDetails pet = petDataService.findPetDetailsById(id).orElseThrow();
+            log.debug("pet=" + pet);
             model.addAttribute("pet", pet);
             return "PetDetails";
         }catch (NumberFormatException e){
             model.addAttribute("message", "The pet id must be an integer");
+            log.warn("Pet data id={} is not integer", ids);
             return "DataNotFound";
         }
     }
@@ -55,6 +57,7 @@ public class PetController {
 
     @ExceptionHandler(NoSuchElementException.class)
     ModelAndView dataNotFound(NoSuchElementException e){
+        log.warn("Pet data is not found.");
         ModelAndView mv = new ModelAndView("DataNotFound", "message", e.getMessage());
         mv.addObject("localDate", getlLocalDate());
         return mv;

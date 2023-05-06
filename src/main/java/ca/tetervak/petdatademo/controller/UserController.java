@@ -21,7 +21,6 @@ import java.util.NoSuchElementException;
 public class UserController {
 
     private final Logger log = LoggerFactory.getLogger(UserController.class);
-
     private final PetOwnerDataService petOwnerDataService;
 
     public UserController(PetOwnerDataService petOwnerDataService) {
@@ -43,9 +42,11 @@ public class UserController {
         try{
             int id = Integer.parseInt(ids);
             PetOwnerDetails ownerDetails = petOwnerDataService.findPetOwnerDetailsById(id).orElseThrow();
+            log.debug("user=" + ownerDetails);
             model.addAttribute("user", ownerDetails);
             return "UserDetails";
         }catch (NumberFormatException e){
+            log.warn("User data id={} is not integer", ids);
             model.addAttribute("message", "The user id must be an integer");
             return "DataNotFound";
         }
@@ -58,6 +59,7 @@ public class UserController {
 
     @ExceptionHandler(NoSuchElementException.class)
     ModelAndView dataNotFound(NoSuchElementException e){
+        log.warn("User data is not found.");
         ModelAndView mv = new ModelAndView("DataNotFound", "message", e.getMessage());
         mv.addObject("localDate", getlLocalDate());
         return mv;

@@ -36,6 +36,11 @@
         </span>
         &nbsp;<a href="UserDetails.html" th:href="@{/users/{id}(id=${pet.owner.id})}">Info</a>
     </p>
+    <h2>Pet's Hobbies</h2>
+    <p th:if="${#lists.isEmpty(pet.hobbies)}" class="message">This pet does not have hobbies.</p>
+    <ul class="hobbies" th:unless="${#lists.isEmpty(pet.hobbies)}">
+        <li th:each="h: ${pet.hobbies}" th:text="${h}">Hobby description.</li>
+    </ul>
 </main>
 <footer th:replace="~{HeaderAndFooter::footer}">
     Some footer text

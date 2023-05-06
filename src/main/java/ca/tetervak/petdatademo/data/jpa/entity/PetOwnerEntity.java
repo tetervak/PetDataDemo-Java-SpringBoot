@@ -1,6 +1,5 @@
-package ca.tetervak.petdatademo.data.jpa;
+package ca.tetervak.petdatademo.data.jpa.entity;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -20,11 +19,12 @@ public class PetOwnerEntity {
     @Column(name = "last_name")
     private String lastName = "";
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST)
-    private List<PetEntity> pets = new ArrayList<>();
-
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @JoinColumn(name = "contact_id")
     private ContactEntity contact;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<PetEntity> pets = new ArrayList<>();
 
     public PetOwnerEntity() {
     }
@@ -32,13 +32,16 @@ public class PetOwnerEntity {
     public PetOwnerEntity(
             String firstName,
             String lastName,
-            List<PetEntity> pets,
             ContactEntity contact
     ) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.pets = pets;
         this.contact = contact;
+    }
+
+    public void addPet(PetEntity pet){
+        pet.setOwner(this);
+        pets.add(pet);
     }
 
     public ContactEntity getContact() {
@@ -79,10 +82,5 @@ public class PetOwnerEntity {
 
     public void setPets(List<PetEntity> pets) {
         this.pets = pets;
-    }
-
-    @JsonGetter
-    Integer getPetCount() {
-        return pets.size();
     }
 }

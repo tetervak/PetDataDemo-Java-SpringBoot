@@ -1,7 +1,10 @@
-package ca.tetervak.petdatademo.data.jpa;
+package ca.tetervak.petdatademo.data.jpa.entity;
 
 import ca.tetervak.petdatademo.model.PetKind;
 import jakarta.persistence.*;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 public class PetEntity {
@@ -22,12 +25,28 @@ public class PetEntity {
     @JoinColumn(name = "owner_id", nullable = false)
     private PetOwnerEntity owner;
 
+    @ManyToMany
+    @JoinTable(name = "pet_hobbies",
+            joinColumns = @JoinColumn(name = "pet_id"),
+            inverseJoinColumns = @JoinColumn(name = "hobby_id"))
+    private Set<HobbyEntity> hobbies = new LinkedHashSet<>();
 
-    public PetEntity(String name, PetKind petKind, Integer age, PetOwnerEntity owner) {
+    public Set<HobbyEntity> getHobbies() {
+        return hobbies;
+    }
+
+    public void setHobbies(Set<HobbyEntity> hobbies) {
+        this.hobbies = hobbies;
+    }
+
+    public boolean addHobby(HobbyEntity hobby){
+        return hobbies.add(hobby);
+    }
+
+    public PetEntity(String name, PetKind petKind, Integer age) {
         this.name = name;
         this.petKind = petKind;
         this.age = age;
-        this.owner = owner;
     }
 
     public PetEntity() {

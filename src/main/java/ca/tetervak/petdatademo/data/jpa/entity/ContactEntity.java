@@ -1,4 +1,4 @@
-package ca.tetervak.petdatademo.data.jpa;
+package ca.tetervak.petdatademo.data.jpa.entity;
 
 import jakarta.persistence.*;
 

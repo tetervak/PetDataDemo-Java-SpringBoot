@@ -77,6 +77,15 @@ span.output{
     color: #be24aa;
 }
 
+ul.hobbies{
+    font-style: oblique;
+    color: #be24aa;
+}
+
+ul.hobbies>li:not(:last-child) {
+    margin-bottom: 10px;
+}
+
 .warning{
     font-size: larger;
     font-weight: bolder;
